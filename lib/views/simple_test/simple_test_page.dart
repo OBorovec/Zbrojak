@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zbrojak/bloc/simple_test/simple_test_bloc.dart';
 import 'package:zbrojak/components/_page/confirm_pop_page.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:zbrojak/components/question/question_widget.dart';
 import 'package:zbrojak/views/simple_test/simple_test_dialogs.dart';
-import 'package:zbrojak/views/simple_test/simple_test_loading.dart';
-import 'package:zbrojak/views/simple_test/simple_test_running.dart';
 
 class SimpleTestPage extends StatelessWidget {
   const SimpleTestPage({Key? key}) : super(key: key);
@@ -52,9 +50,21 @@ class SimpleTestPage extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is SimpleTestRunning) {
-          return SimpleTestRunningWidget(state: state);
+          return QuestionWidget(
+            question: state.getQuestion(),
+            shuffle: true,
+            showCorrect: true,
+          );
         } else if (state is SimpleTestLoading) {
-          return SimpleTestLoadingWidget(state: state);
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const CircularProgressIndicator(),
+                if (state.message != null) Text(state.message!),
+              ],
+            ),
+          );
         } else {
           return const Center(
             child: CircularProgressIndicator(),

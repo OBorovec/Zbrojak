@@ -22,10 +22,6 @@ class SimpleTestRunning extends SimpleTestState {
   // Test stats
   final int correctCount;
   final int mistakeCount;
-  // Test current question
-  final String currentQuestion;
-  final List<String> currentAnswers;
-  final String? currentImage;
 
   SimpleTestRunning({
     this.status = TetsStatus.running,
@@ -33,12 +29,11 @@ class SimpleTestRunning extends SimpleTestState {
     required this.index,
     required this.correctCount,
     required this.mistakeCount,
-    required this.currentQuestion,
-    required this.currentAnswers,
-    this.currentImage,
   });
   @override
   List<Object?> get props => [questions, index, status];
+
+  Question getQuestion() => questions[index];
 
   SimpleTestRunning copyWith({
     TetsStatus? status,
@@ -56,9 +51,6 @@ class SimpleTestRunning extends SimpleTestState {
       index: index ?? this.index,
       correctCount: correctCount ?? this.correctCount,
       mistakeCount: mistakeCount ?? this.mistakeCount,
-      currentQuestion: currentQuestion ?? this.currentQuestion,
-      currentAnswers: currentAnswers ?? this.currentAnswers,
-      currentImage: currentImage ?? this.currentImage,
     );
   }
 }

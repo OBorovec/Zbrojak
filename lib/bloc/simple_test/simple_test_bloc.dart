@@ -45,12 +45,6 @@ class SimpleTestBloc extends Bloc<SimpleTestEvent, SimpleTestState> {
     availableQuestions.shuffle();
     final List<Question> questions =
         availableQuestions.sublist(0, Setting.simpleTestRounds).toList();
-    // Init question setup
-    int idx = 0;
-    String question = questions[idx].question;
-    List<String> answers = (questions[idx].options + [questions[idx].answer]);
-    answers.shuffle();
-    String? image = questions[idx].image;
     // Emit state
     emit(
       SimpleTestRunning(
@@ -58,9 +52,6 @@ class SimpleTestBloc extends Bloc<SimpleTestEvent, SimpleTestState> {
         index: 0,
         correctCount: 0,
         mistakeCount: 0,
-        currentQuestion: question,
-        currentAnswers: answers,
-        currentImage: image,
       ),
     );
   }
@@ -84,32 +75,19 @@ class SimpleTestBloc extends Bloc<SimpleTestEvent, SimpleTestState> {
         // TODO: store mistake in user DB
       }
       if (strState.index + 1 == Setting.simpleTestRounds) {
-        // Emit finished state
         emit(
           strState.copyWith(
-            index: strState.index,
             status: TetsStatus.finished,
             correctCount: strState.correctCount + correct,
             mistakeCount: strState.mistakeCount + mistake,
           ),
         );
       } else {
-        // Set next question
-        Question nextQ = strState.questions[strState.index + 1];
-        String question = nextQ.question;
-        List<String> answers = nextQ.options + [nextQ.answer];
-        answers.shuffle();
-        String? image = nextQ.image;
-        // Emit next question state
-        if (strState.index + 1 == Setting.simpleTestRounds) {}
         emit(
           strState.copyWith(
             index: strState.index + 1,
             correctCount: strState.correctCount + correct,
             mistakeCount: strState.mistakeCount + mistake,
-            currentQuestion: question,
-            currentAnswers: answers,
-            currentImage: image,
           ),
         );
       }

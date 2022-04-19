@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zbrojak/views/all_questions/all_questions_page.dart';
 import 'package:zbrojak/views/home/home_page.dart';
 import 'package:zbrojak/views/setting/settings_page.dart';
 import 'package:zbrojak/views/simple_test/simple_test_page.dart';
@@ -22,6 +23,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const HomePage());
       case RoutePaths.test:
         return MaterialPageRoute(builder: (_) => const SimpleTestPage());
+      case RoutePaths.questions:
+        return MaterialPageRoute(builder: (_) => AllQuestionsPage());
       case RoutePaths.settings:
         return MaterialPageRoute(builder: (_) => const SettingsPage());
       // Default

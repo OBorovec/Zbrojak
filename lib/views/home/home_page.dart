@@ -29,9 +29,9 @@ class HomePage extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                Toasting.notifyToast(
-                  context: context,
-                  message: 'Not implemented yet...',
+                Navigator.pushNamed(
+                  context,
+                  RoutePaths.questions,
                 );
               },
               child: Text(
