@@ -1,0 +1,30 @@
+{
+  "appTitle": "Zbroják",
+  "popDialogTitle": "Odejít",
+  "popDialogContent": "Přeješ si návrat do hlavniho menu?",
+  "popDialogYes": "Ano",
+  "popDialogNo": "Ne",
+  "mainOptionQuickTest": "Rychlý test",
+  "mainOptionAllQuestions": "Všechny otázky",
+  "mainOptionTips": "Rady a triky",
+  "mainOptionFailedQuestions": "Špatně zodpovězené",
+  "mainOptionStats": "Statistiky",
+  "mainOptionSettings": "Nastavení",
+  "mainOptionLeave": "Odejít",
+  "simpleTestDiagResultTitle": "Test dokončen",
+  "simpleTestDiagResultContent": "Tak dnes to bylo {correct} otázek správně a {mistakes} chyb.",
+  "@simpleTestDiagResultContent": {
+    "placeholders": {
+      "correct": {
+        "type": "int",
+        "example": "0"
+      },
+      "mistakes": {
+        "type": "int",
+        "example": "0"
+      }
+    }
+  },
+  "simpleTestDiagResultRepeat": "Opakovat",
+  "simpleTestDiagResultLeave": "Odejít"
+}
