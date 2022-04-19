@@ -52,6 +52,7 @@ class AllQuestionsPage extends StatelessWidget {
             items: state.questions.map((question) {
               return QuestionWidget(
                 question: question,
+                onAnswer: (_, __) {},
                 shuffle: false,
                 showCorrect: true,
               );

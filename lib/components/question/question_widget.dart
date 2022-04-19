@@ -5,11 +5,13 @@ import 'package:zbrojak/model/question.dart';
 
 class QuestionWidget extends StatelessWidget {
   final Question question;
+  final Function(int idx, String answer) onAnswer;
   final bool shuffle;
   final bool showCorrect;
   const QuestionWidget({
     Key? key,
     required this.question,
+    required this.onAnswer,
     this.shuffle = false,
     this.showCorrect = false,
   }) : super(key: key);
@@ -82,6 +84,9 @@ class QuestionWidget extends StatelessWidget {
         return QuestionAnswer(
           text: ans,
           highlight: showCorrect && idx == highlightIdx,
+          onPressed: () {
+            onAnswer(idx, ans);
+          },
         );
       },
     ).toList();
@@ -91,11 +96,13 @@ class QuestionWidget extends StatelessWidget {
 class QuestionAnswer extends StatelessWidget {
   final String text;
   final bool highlight;
+  final Function() onPressed;
 
   const QuestionAnswer({
     Key? key,
     required this.text,
     required this.highlight,
+    required this.onPressed,
   }) : super(key: key);
 
   @override
@@ -103,9 +110,7 @@ class QuestionAnswer extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ElevatedButton(
-        onPressed: () => BlocProvider.of<SimpleTestBloc>(context).add(
-          AnswerQuestion(answer: text),
-        ),
+        onPressed: onPressed,
         child: Text(
           text,
           style: Theme.of(context).textTheme.subtitle1,

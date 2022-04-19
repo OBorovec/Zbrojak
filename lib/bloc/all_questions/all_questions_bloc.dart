@@ -38,6 +38,6 @@ class AllQuestionsBloc extends Bloc<AllQuestionsEvent, AllQuestionsState> {
     QuestionIndexChanged event,
     Emitter<AllQuestionsState> emit,
   ) {
-    // TODO: Store index in Preferences
+    // TODO: Store event.index in Preferences
   }
 }

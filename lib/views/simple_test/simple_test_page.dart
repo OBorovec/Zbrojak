@@ -52,8 +52,11 @@ class SimpleTestPage extends StatelessWidget {
         if (state is SimpleTestRunning) {
           return QuestionWidget(
             question: state.getQuestion(),
+            onAnswer: (_, ans) => BlocProvider.of<SimpleTestBloc>(context).add(
+              AnswerQuestion(answer: ans),
+            ),
             shuffle: true,
-            showCorrect: true,
+            showCorrect: false,
           );
         } else if (state is SimpleTestLoading) {
           return Center(
