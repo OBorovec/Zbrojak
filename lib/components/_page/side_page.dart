@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 class SidePage extends StatelessWidget {
   final Widget body;
+  final List<Widget> controlButtons;
 
   const SidePage({
     Key? key,
     required this.body,
+    this.controlButtons = const <Widget>[],
   }) : super(key: key);
 
   @override
@@ -30,6 +32,7 @@ class SidePage extends StatelessWidget {
                       },
                       icon: const Icon(Icons.cancel_outlined),
                     ),
+                    ...controlButtons,
                   ],
                 ),
               ),

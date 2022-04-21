@@ -6,14 +6,19 @@ import 'package:meta/meta.dart';
 import 'package:zbrojak/constants/setting.dart';
 import 'package:zbrojak/model/question.dart';
 import 'package:zbrojak/services/assets_loader.dart';
+import 'package:zbrojak/services/prefs_repo.dart';
 
 part 'simple_test_event.dart';
 part 'simple_test_state.dart';
 
 class SimpleTestBloc extends Bloc<SimpleTestEvent, SimpleTestState> {
+  final PrefsRepo _prefs;
   late List<Question> availableQuestions;
 
-  SimpleTestBloc() : super(SimpleTestLoading()) {
+  SimpleTestBloc({
+    required PrefsRepo prefs,
+  })  : _prefs = prefs,
+        super(SimpleTestLoading()) {
     on<LoadSimpleTest>(_loadSimpleTest);
     on<ResetSimpleTest>(_resetSimpleTest);
     on<AnswerQuestion>(_answerTestQuestion);
@@ -72,7 +77,8 @@ class SimpleTestBloc extends Bloc<SimpleTestEvent, SimpleTestState> {
       } else {
         correct = 0;
         mistake = 1;
-        // TODO: store mistake in user DB
+        // Store question ID in prefs
+        _prefs.addQuestionIdIncorrect(currectQ.id);
       }
       if (strState.index + 1 == Setting.simpleTestRounds) {
         emit(

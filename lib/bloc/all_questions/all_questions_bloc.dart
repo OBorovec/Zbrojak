@@ -4,13 +4,17 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:zbrojak/model/question.dart';
 import 'package:zbrojak/services/assets_loader.dart';
+import 'package:zbrojak/services/prefs_repo.dart';
 
 part 'all_questions_event.dart';
 part 'all_questions_state.dart';
 
 class AllQuestionsBloc extends Bloc<AllQuestionsEvent, AllQuestionsState> {
-  late List<Question> questions;
-  AllQuestionsBloc() : super(const AllQuestionsLoading()) {
+  final PrefsRepo _prefs;
+  AllQuestionsBloc({
+    required PrefsRepo prefs,
+  })  : _prefs = prefs,
+        super(const AllQuestionsLoading()) {
     on<LoadQuestions>(_loadQuestions);
     on<QuestionIndexChanged>(_questionIndexChanged);
   }
@@ -20,16 +24,17 @@ class AllQuestionsBloc extends Bloc<AllQuestionsEvent, AllQuestionsState> {
     Emitter<AllQuestionsState> emit,
   ) async {
     // Load questions from assets
-    final List<dynamic> questionDataSet =
-        await parseJsonFromAssets('assets/2021/questions.json')
-            as List<dynamic>;
-    questions = questionDataSet.map((e) => Question.fromMap(e)).toList();
+    final List<Question> questionDataSet =
+        (await parseJsonFromAssets('assets/2021/questions.json')
+                as List<dynamic>)
+            .map((e) => Question.fromMap(e))
+            .toList();
     // Load initIndex from Preferences
-    //  TODO: ^^
+    int initIndex = _prefs.loadQuestionListingIdx() ?? 0;
     emit(
       AllQuestionsLoaded(
-        questions: questions,
-        initIndex: 0,
+        questions: questionDataSet,
+        initIndex: initIndex,
       ),
     );
   }
@@ -38,6 +43,6 @@ class AllQuestionsBloc extends Bloc<AllQuestionsEvent, AllQuestionsState> {
     QuestionIndexChanged event,
     Emitter<AllQuestionsState> emit,
   ) {
-    // TODO: Store event.index in Preferences
+    _prefs.saveQuestionListingIdx(event.index);
   }
 }

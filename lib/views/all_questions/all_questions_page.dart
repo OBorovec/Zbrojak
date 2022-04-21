@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zbrojak/bloc/all_questions/all_questions_bloc.dart';
 import 'package:zbrojak/components/_page/confirm_pop_page.dart';
 import 'package:zbrojak/components/question/question_widget.dart';
+import 'package:zbrojak/services/prefs_repo.dart';
 
 class AllQuestionsPage extends StatelessWidget {
   AllQuestionsPage({Key? key}) : super(key: key);
@@ -13,7 +14,9 @@ class AllQuestionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AllQuestionsBloc()..add(LoadQuestions()),
+      create: (context) => AllQuestionsBloc(
+        prefs: context.read<PrefsRepo>(),
+      )..add(LoadQuestions()),
       child: Builder(builder: (context) {
         return PopDialogPage(
           body: _buildBody(context),
@@ -59,7 +62,7 @@ class AllQuestionsPage extends StatelessWidget {
             }).toList(),
           );
         } else {
-          return Container();
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );

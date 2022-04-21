@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zbrojak/bloc/simple_test/simple_test_bloc.dart';
 import 'package:zbrojak/components/_page/confirm_pop_page.dart';
 import 'package:zbrojak/components/question/question_widget.dart';
+import 'package:zbrojak/services/prefs_repo.dart';
 import 'package:zbrojak/views/simple_test/simple_test_dialogs.dart';
 
 class SimpleTestPage extends StatelessWidget {
@@ -11,7 +12,9 @@ class SimpleTestPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SimpleTestBloc()..add(LoadSimpleTest()),
+      create: (context) => SimpleTestBloc(
+        prefs: context.read<PrefsRepo>(),
+      )..add(LoadSimpleTest()),
       child: Builder(builder: (context) {
         return PopDialogPage(
           body: _buildBlocLogic(context),

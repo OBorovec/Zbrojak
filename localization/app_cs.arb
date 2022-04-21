@@ -26,5 +26,7 @@
     }
   },
   "simpleTestDiagResultRepeat": "Opakovat",
-  "simpleTestDiagResultLeave": "Odejít"
+  "simpleTestDiagResultLeave": "Odejít",
+  "incorrectQuestionsPageNoMistakes": "Hurá, nemáš tu žádné chyby na review.",
+  "incorrectQuestionsPageToastWillBeRemoved": "Otázka byla označena, přístě se tady nenačte.."
 }

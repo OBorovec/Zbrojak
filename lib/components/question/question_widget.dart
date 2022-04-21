@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:zbrojak/bloc/simple_test/simple_test_bloc.dart';
 import 'package:zbrojak/model/question.dart';
 
 class QuestionWidget extends StatelessWidget {
@@ -30,6 +28,7 @@ class QuestionWidget extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    _buildQuestionIdx(context),
                     if (question.image != null) _buildImage(),
                     _buildQuestion(context),
                   ],
@@ -53,6 +52,13 @@ class QuestionWidget extends StatelessWidget {
     );
   }
 
+  Widget _buildQuestionIdx(BuildContext context) {
+    return Text(
+      question.id.toString(),
+      style: Theme.of(context).textTheme.displaySmall,
+    );
+  }
+
   Widget _buildImage() {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
@@ -64,12 +70,10 @@ class QuestionWidget extends StatelessWidget {
   }
 
   Widget _buildQuestion(BuildContext context) {
-    return Center(
-      child: Text(
-        question.question,
-        textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.headline6,
-      ),
+    return Text(
+      question.question,
+      textAlign: TextAlign.center,
+      style: Theme.of(context).textTheme.headline6,
     );
   }
 

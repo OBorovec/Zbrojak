@@ -13,84 +13,88 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return RootPage(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  RoutePaths.test,
-                );
-              },
-              child: Text(
-                AppLocalizations.of(context)!.mainOptionQuickTest,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    RoutePaths.test,
+                  );
+                },
+                child: Text(
+                  AppLocalizations.of(context)!.mainOptionQuickTest,
+                ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  RoutePaths.questions,
-                );
-              },
-              child: Text(
-                AppLocalizations.of(context)!.mainOptionAllQuestions,
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    RoutePaths.questions,
+                  );
+                },
+                child: Text(
+                  AppLocalizations.of(context)!.mainOptionAllQuestions,
+                ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Toasting.notifyToast(
-                  context: context,
-                  message: 'Not implemented yet...',
-                );
-              },
-              child: Text(
-                AppLocalizations.of(context)!.mainOptionTips,
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    RoutePaths.mistakes,
+                  );
+                },
+                child: Text(
+                  AppLocalizations.of(context)!.mainOptionFailedQuestions,
+                ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Toasting.notifyToast(
-                  context: context,
-                  message: 'Not implemented yet...',
-                );
-              },
-              child: Text(
-                AppLocalizations.of(context)!.mainOptionFailedQuestions,
+              ElevatedButton(
+                onPressed: () {
+                  Toasting.notifyToast(
+                    context: context,
+                    message: 'Not implemented yet...',
+                  );
+                },
+                child: Text(
+                  AppLocalizations.of(context)!.mainOptionTips,
+                ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Toasting.notifyToast(
-                  context: context,
-                  message: 'Not implemented yet...',
-                );
-              },
-              child: Text(
-                AppLocalizations.of(context)!.mainOptionStats,
+              ElevatedButton(
+                onPressed: () {
+                  Toasting.notifyToast(
+                    context: context,
+                    message: 'Not implemented yet...',
+                  );
+                },
+                child: Text(
+                  AppLocalizations.of(context)!.mainOptionStats,
+                ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Toasting.notifyToast(
-                  context: context,
-                  message: 'Not implemented yet...',
-                );
-              },
-              child: Text(
-                AppLocalizations.of(context)!.mainOptionSettings,
+              ElevatedButton(
+                onPressed: () {
+                  Toasting.notifyToast(
+                    context: context,
+                    message: 'Not implemented yet...',
+                  );
+                },
+                child: Text(
+                  AppLocalizations.of(context)!.mainOptionSettings,
+                ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                exit(0);
-              },
-              child: Text(
-                AppLocalizations.of(context)!.mainOptionLeave,
+              ElevatedButton(
+                onPressed: () {
+                  exit(0);
+                },
+                child: Text(
+                  AppLocalizations.of(context)!.mainOptionLeave,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
