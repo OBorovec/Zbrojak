@@ -26,7 +26,7 @@ class IncQuestionsLoaded extends IncQuestionsState {
   });
 
   @override
-  List<Object> get props => [questions];
+  List<Object> get props => [questions, idx];
 
   IncQuestionsLoaded copyWith({
     List<Question>? questions,

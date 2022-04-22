@@ -6,18 +6,19 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<dynamic> showResultDialog(
   BuildContext rootContext,
-  int corrent,
-  int mistake,
+  int correntCount,
+  int mistakeCount,
 ) {
   return showDialog(
     context: rootContext,
+    barrierDismissible: false,
     builder: (context) => AlertDialog(
       title: Text(
         AppLocalizations.of(context)!.simpleTestDiagResultTitle,
       ),
       content: Text(
         AppLocalizations.of(context)!
-            .simpleTestDiagResultContent(corrent, mistake),
+            .simpleTestDiagResultContent(correntCount, mistakeCount),
       ),
       actions: <Widget>[
         TextButton(

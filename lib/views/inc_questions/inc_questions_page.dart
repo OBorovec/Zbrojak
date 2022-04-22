@@ -1,14 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:zbrojak/bloc/incorrect_questions/incorrect_questions_bloc.dart';
 import 'package:zbrojak/components/_page/side_page.dart';
 import 'package:zbrojak/components/question/question_widget.dart';
 import 'package:zbrojak/services/prefs_repo.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:zbrojak/utils/toasting.dart';
 
 class IncQuestionsPage extends StatelessWidget {
   IncQuestionsPage({Key? key}) : super(key: key);
@@ -30,11 +28,6 @@ class IncQuestionsPage extends StatelessWidget {
                 BlocProvider.of<IncQuestionsBloc>(context).add(
                   RemoveCurrentIncQuestion(),
                 );
-                Toasting.notifyToast(
-                    context: context,
-                    message: AppLocalizations.of(context)!
-                        .incorrectQuestionsPageToastWillBeRemoved,
-                    gravity: ToastGravity.CENTER);
               },
               icon: const Icon(Icons.check),
             )
@@ -50,8 +43,24 @@ class IncQuestionsPage extends StatelessWidget {
       builder: (context, state) {
         if (state is IncQuestionsLoaded) {
           if (state.questions.isNotEmpty) {
-            print('rebuilding');
-            return CarouselSlider(
+            return CarouselSlider.builder(
+              itemCount: state.questions.length,
+              itemBuilder: (
+                BuildContext context,
+                int itemIndex,
+                int pageViewIndex,
+              ) {
+                return Hero(
+                  tag:
+                      'incQuestion_' + state.questions[itemIndex].id.toString(),
+                  child: QuestionWidget(
+                    question: state.questions[itemIndex],
+                    onAnswer: (_, __) {},
+                    shuffle: false,
+                    showCorrect: true,
+                  ),
+                );
+              },
               options: CarouselOptions(
                 height: height,
                 viewportFraction: 1,
@@ -65,14 +74,6 @@ class IncQuestionsPage extends StatelessWidget {
                 },
               ),
               carouselController: carouselController,
-              items: state.questions.map((question) {
-                return QuestionWidget(
-                  question: question,
-                  onAnswer: (_, __) {},
-                  shuffle: false,
-                  showCorrect: true,
-                );
-              }).toList(),
             );
           } else {
             return Center(

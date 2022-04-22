@@ -56,10 +56,7 @@ class PrefsRepo {
 
   void removeQuestionIdIncorrect(int id) {
     List<int> ids = loadQuestionIdsIncorrect();
-    print(ids);
-    print('removing $id');
     ids.remove(id);
-    print(ids);
     saveQuestionIdsIncorrect(ids);
   }
 

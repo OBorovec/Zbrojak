@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -50,6 +51,12 @@ class IncQuestionsBloc extends Bloc<IncQuestionsEvent, IncQuestionsState> {
       _prefs.removeQuestionIdIncorrect(
         loadedState.questions[loadedState.idx].id,
       );
+      // Create new list without current question
+      List<Question> newQuestions = loadedState.questions.toList();
+      newQuestions.removeAt(loadedState.idx);
+      emit(loadedState.copyWith(
+          questions: newQuestions,
+          idx: min(loadedState.idx, newQuestions.length - 1)));
     }
   }
 

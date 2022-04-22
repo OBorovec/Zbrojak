@@ -49,6 +49,6 @@ class Question extends Equatable {
 
   @override
   String toString() {
-    return 'Question(id: $id, question: $question, answer: $answer, options: $options, image: $image)';
+    return 'Question(id: $id)';
   }
 }
