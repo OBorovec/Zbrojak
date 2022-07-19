@@ -12,10 +12,10 @@ class PopDialogPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<PopDialogPage> createState() => _PopDialogPagetate();
+  State<PopDialogPage> createState() => _PopDialogPageState();
 }
 
-class _PopDialogPagetate extends State<PopDialogPage> {
+class _PopDialogPageState extends State<PopDialogPage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

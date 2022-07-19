@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  late final Future<List> _future = Future.wait(
+  final Future<List> _future = Future.wait(
     [
       SharedPreferences.getInstance(),
     ],
@@ -82,6 +82,7 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: (settings) => RouteGenerator.generateRoute(
         settings,
       ),
+      debugShowCheckedModeBanner: false,
     );
   }
 
@@ -97,7 +98,6 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      debugShowCheckedModeBanner: false,
     );
   }
 }
