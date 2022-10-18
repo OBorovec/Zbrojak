@@ -1,3 +1,3 @@
 class Setting {
-  static const int simpleTestRounds = 10;
+  static const int quickTestRounds = 10;
 }

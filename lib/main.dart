@@ -1,39 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:zbrojak/constants/theme.dart';
 import 'package:zbrojak/route_generator.dart';
 import 'package:zbrojak/services/prefs_repo.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  BlocOverrides.runZoned(
-    () => runApp(MyApp()),
-    blocObserver: AppBlocObserver(),
-  );
+  Bloc.observer = AppBlocObserver();
+  runApp(const ZbrojakApp());
 }
 
 class AppBlocObserver extends BlocObserver {
   @override
   void onChange(BlocBase bloc, Change change) {
     super.onChange(bloc, change);
-    print(change);
+    debugPrint(change.toString());
   }
 
   @override
   void onTransition(Bloc bloc, Transition transition) {
     super.onTransition(bloc, transition);
-    print(transition);
+    debugPrint(transition.toString());
   }
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({
+class ZbrojakApp extends StatefulWidget {
+  const ZbrojakApp({
     Key? key,
   }) : super(key: key);
 
-  final Future<List> _future = Future.wait(
+  @override
+  State<ZbrojakApp> createState() => _ZbrojakAppState();
+}
+
+class _ZbrojakAppState extends State<ZbrojakApp> {
+  late final Future<List> _future = Future.wait(
     [
       SharedPreferences.getInstance(),
     ],
@@ -61,7 +66,7 @@ class MyApp extends StatelessWidget {
             ),
           );
         } else {
-          return const CircularProgressIndicator();
+          return _buildMaterialLoading();
         }
       },
     );
@@ -72,7 +77,8 @@ class MyApp extends StatelessWidget {
     String initRoute,
   ) {
     return MaterialApp(
-      title: 'BlavApp',
+      onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
+      debugShowCheckedModeBanner: false,
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: ThemeMode.system,
@@ -82,7 +88,6 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: (settings) => RouteGenerator.generateRoute(
         settings,
       ),
-      debugShowCheckedModeBanner: false,
     );
   }
 
@@ -90,12 +95,31 @@ class MyApp extends StatelessWidget {
     String message,
   ) {
     return MaterialApp(
+      onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
+      debugShowCheckedModeBanner: false,
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: ThemeMode.system,
       home: Scaffold(
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(message),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMaterialLoading() {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: ThemeMode.system,
+      home: const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
         ),
       ),
     );

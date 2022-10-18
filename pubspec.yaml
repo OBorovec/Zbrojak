@@ -1,10 +1,8 @@
 name: zbrojak
-description: A new Flutter project.
-
-# Prevent accidental publishing to pub.dev.
+description: Project to help you practice for weapons license exam in CZ.
 publish_to: "none"
 
-version: 0.0.2
+version: 1.0.0+1
 
 environment:
   sdk: ">=2.16.2 <3.0.0"
@@ -12,19 +10,22 @@ environment:
 dependencies:
   carousel_slider: ^4.0.0
   equatable: ^2.0.3
-  flex_color_scheme: ^4.2.0
+  flex_color_scheme: ^6.0.1
   flutter:
     sdk: flutter
-  flutter_bloc: ^8.0.1
+  flutter_bloc: ^8.1.1
   flutter_localizations:
     sdk: flutter
   fluttertoast: ^8.0.9
+  json_annotation: ^4.7.0
+  json_serializable: ^6.5.2
   shared_preferences: ^2.0.13
 
 dev_dependencies:
+  build_runner: ^2.3.0
   bloc_test: ^9.0.3
-  flutter_launcher_icons: ^0.9.2
-  flutter_lints: ^1.0.0
+  flutter_launcher_icons: ^0.10.0
+  flutter_lints: ^2.0.1
   flutter_native_splash: ^2.1.6
   flutter_test:
     sdk: flutter
@@ -34,18 +35,21 @@ flutter:
   generate: true
 
   assets:
-    - assets/2021/
-    - assets/2021/images/
+    - assets/data/2021/
+    - assets/data/2021/images/
+    - assets/icons/
 
 # flutter pub run flutter_launcher_icons:main
 flutter_icons:
-  android: launcher_icon
+  android: ic_launcher
   ios: true
   image_path: assets/launcher.png
+  adaptive_icon_foreground: assets/launcher.png
+  adaptive_icon_background: "#386a20"
 
 # flutter pub run flutter_native_splash:create
 flutter_native_splash:
-  color: "#004e15"
+  color: "#386a20"
   image: assets/launcher.png
   android: true
   ios: true

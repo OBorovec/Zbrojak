@@ -1,111 +1,103 @@
 import 'package:flutter/material.dart';
+
 import 'package:zbrojak/model/question.dart';
 
 class QuestionWidget extends StatelessWidget {
   final Question question;
-  final Function(int idx, String answer) onAnswer;
-  final bool shuffle;
-  final bool showCorrect;
+  final Function(int idx, String optionKey) onAnswer;
+  final bool highlightCorrect;
+  final String? highlightErrorOption;
+
   const QuestionWidget({
     Key? key,
     required this.question,
     required this.onAnswer,
-    this.shuffle = false,
-    this.showCorrect = false,
+    this.highlightCorrect = false,
+    this.highlightErrorOption,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            flex: 3,
-            child: Center(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _buildQuestionIdx(context),
-                    if (question.image != null) _buildImage(),
-                    _buildQuestion(context),
-                  ],
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              question.id.toString(),
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            const Divider(),
+            Expanded(
+              flex: 2,
+              child: Center(
+                child: SingleChildScrollView(
+                  child: _buildQuestion(context),
                 ),
               ),
             ),
-          ),
-          const Divider(),
-          Expanded(
-            flex: 2,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: _buildAnswers(context),
+            const Divider(),
+            Expanded(
+              flex: 2,
+              child: SingleChildScrollView(
+                child: _buildAnswers(context),
               ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Column _buildQuestion(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        if (question.image != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Image.asset(
+              'assets/data/2021/images/${question.image}',
+              fit: BoxFit.scaleDown,
+            ),
           ),
-        ],
-      ),
+        Text(
+          question.question,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+      ],
     );
   }
 
-  Widget _buildQuestionIdx(BuildContext context) {
-    return Text(
-      question.id.toString(),
-      style: Theme.of(context).textTheme.displaySmall,
+  Widget _buildAnswers(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: question.options.entries
+          .map((e) => _QuestionAnswer(
+                text: e.value,
+                highlightCorrect: highlightCorrect && e.key == question.correct,
+                highlightError: highlightErrorOption == e.key,
+                onPressed: (() => onAnswer(question.id, e.key)),
+              ))
+          .toList(),
     );
-  }
-
-  Widget _buildImage() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Image.asset(
-        'assets/2021/images/${question.image}',
-        fit: BoxFit.scaleDown,
-      ),
-    );
-  }
-
-  Widget _buildQuestion(BuildContext context) {
-    return Text(
-      question.question,
-      textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.headline6,
-    );
-  }
-
-  List<Widget> _buildAnswers(BuildContext context) {
-    int idx = -1;
-    List<String> answers = [question.answer] + question.options;
-    if (shuffle) answers.shuffle();
-    int highlightIdx = answers.indexOf(question.answer);
-    return answers.map(
-      (ans) {
-        idx++;
-        return QuestionAnswer(
-          text: ans,
-          highlight: showCorrect && idx == highlightIdx,
-          onPressed: () {
-            onAnswer(idx, ans);
-          },
-        );
-      },
-    ).toList();
   }
 }
 
-class QuestionAnswer extends StatelessWidget {
+class _QuestionAnswer extends StatelessWidget {
   final String text;
-  final bool highlight;
+  final bool highlightCorrect;
+  final bool highlightError;
   final Function() onPressed;
 
-  const QuestionAnswer({
+  const _QuestionAnswer({
     Key? key,
     required this.text,
-    required this.highlight,
+    this.highlightCorrect = false,
+    this.highlightError = false,
     required this.onPressed,
   }) : super(key: key);
 
@@ -115,16 +107,39 @@ class QuestionAnswer extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: ElevatedButton(
         onPressed: onPressed,
-        child: Text(
-          text,
-          style: Theme.of(context).textTheme.subtitle1,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: _getBackgroundColor(context),
         ),
-        style: highlight
-            ? ElevatedButton.styleFrom(
-                primary: Theme.of(context).colorScheme.secondary,
-              )
-            : null,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4.0),
+          child: Text(
+            text,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: _getTextColor(context),
+                ),
+          ),
+        ),
       ),
     );
+  }
+
+  Color _getBackgroundColor(BuildContext context) {
+    if (highlightCorrect) {
+      return Theme.of(context).colorScheme.primary;
+    } else if (highlightError) {
+      return Theme.of(context).colorScheme.error;
+    } else {
+      return Theme.of(context).colorScheme.secondary;
+    }
+  }
+
+  Color _getTextColor(BuildContext context) {
+    if (highlightCorrect) {
+      return Theme.of(context).colorScheme.onPrimary;
+    } else if (highlightError) {
+      return Theme.of(context).colorScheme.onError;
+    } else {
+      return Theme.of(context).colorScheme.onSecondary;
+    }
   }
 }
